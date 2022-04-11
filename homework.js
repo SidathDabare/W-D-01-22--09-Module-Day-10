@@ -170,22 +170,65 @@ printTitle("EXERCISE 7");
 /* EXERCISE 7
 Write a function called whatDayIsIt that should return the current day of the week.
 */
-const weekday = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+// const weekday = [
+//   "Sunday",
+//   "Monday",
+//   "Tuesday",
+//   "Wednesday",
+//   "Thursday",
+//   "Friday",
+//   "Saturday",
+// ];
+
+// function whatDayIsIt(day) {
+//   //const d = new Date();
+//   //console.log(d);
+//   return weekday[day - 1];
+// }
+// console.log(whatDayIsIt(7));
+
+// const weekday = [
+//   "Sunday",
+//   "Monday",
+//   "Tuesday",
+//   "Wednesday",
+//   "Thursday",
+//   "Friday",
+//   "Saturday",
+// ];
 
 function whatDayIsIt(day) {
-  //const d = new Date();
-  //console.log(d);
-  return weekday[day - 1];
+  //today = new Date().getDay();
+  switch (day) {
+    case 0:
+      console.log("It is a Sunday.");
+      break;
+    case 1:
+      console.log("It is a Monday.");
+      break;
+    case 2:
+      console.log("It is a Tuesday.");
+      break;
+    case 3:
+      console.log("It is a Wednesday.");
+      break;
+    case 4:
+      console.log("It is a Thursday.");
+      break;
+    case 5:
+      console.log("It is a Friday.");
+      break;
+    case 6:
+      console.log("It is a Saturday.");
+      break;
+      s;
+    default:
+      console.log("No such day exists!");
+      break;
+  }
+  return day;
 }
-console.log(whatDayIsIt(7));
+whatDayIsIt(6);
 
 //-----------------------------------------------------------------------------------------
 printTitle("EXERCISE 8");
@@ -242,14 +285,7 @@ function howManyDays(start, end) {
   return diffInDays;
 }
 // Datae format ---  month/days/year
-console.log(howManyDays("1/31/2022", "2/3/2022"));
-
-// const date1 = new Date("1/31/2022");
-// const date2 = new Date("2/1/2022");
-// const diffTime = Math.abs(date2 - date1);
-// const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-// console.log(diffTime + " milliseconds");
-// console.log(diffDays + " days");
+console.log(howManyDays("1/31/2022", "2/7/2022"));
 
 //-------------------------------------------------------------------------------------------
 printTitle("EXERCISE 10");
@@ -258,16 +294,24 @@ Write a function called isTodayMyBirthday which should return true if today’s 
  birthday, false otherwise.
 */
 
-function isTodayMyBirthday(birthday) {
-  let today = new Date();
-  //let birthday = new Date();
-  if (today === birthday) {
+function isTodayMyBirthday(dob) {
+  let today = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    date: new Date().getDate(),
+  };
+  console.log(today);
+  console.log(dob);
+
+  if (today.month == dob.month && today.date == dob.date) {
     return true + " Today is your b'day";
   } else {
-    return false + " Today is not your b'day";
+    return false + " Have a good day";
   }
 }
-console.log(isTodayMyBirthday(2022 - 4 - 8));
+console.log(isTodayMyBirthday({ year: 2022, month: 4, date: 10 }));
+//Date format ---  month/days/year
+// console.log(isTodayMyBirthday({ year: 2022, month: 4, date: 10 }));
 
 //-------------------------------------------------------
 // JS Arrays & Objects
@@ -277,17 +321,13 @@ printTitle("EXERCISE 11");
 Write a function called deleteProp which receives an object and a string as parameters,
 and returns the given object after deleting its property named as the given string.
 */
-let person = { name: "John" };
-let string = "";
-function deleteProp(person, string) {
-  if (delete person.name) {
-    console.log(person);
-    return (person.name = string);
-  }
-  console.log(person);
+function deleteProp(obj, str) {
+  delete obj[str];
+  return obj;
 }
 
-console.log(deleteProp("doe"));
+console.log(deleteProp({ name: "jack", age: 12 }, "name"));
+console.log(deleteProp({ name: "jack", age: 12 }, "age"));
 
 //----------------------------------------------------------------------------------------------
 printTitle("EXERCISE 12");
@@ -411,12 +451,28 @@ const movies = [
 Write a function called oldestMovie which finds the oldest movie in the provided 
 movies array.
 */
+
 function oldestMovie() {
-  for (let i = 0; i < movies.length; i++) {
-    console.log(movies[i].Year);
-    // oldestYear = Math.min(...movies[i].Year);
-    // console.log(oldestYear);
+  let Oldest = parseInt(movies[0].Year);
+  let Temp = parseInt(0);
+  let OldestMovie;
+  for (let index = 1; index < movies.length; index++) {
+    Temp = movies[index].Year;
+    if (Temp < Oldest) {
+      Oldest = Temp;
+    }
   }
+  for (index = 0; index < movies.length; index++) {
+    if (movies[index].Year === Oldest) {
+      OldestMovie = movies[index].Title;
+    }
+  }
+  console.log(
+    "Oldest movie in movies array is from ",
+    Oldest,
+    "and it is",
+    OldestMovie
+  );
 }
 oldestMovie();
 //---------------------------------------------------------------------------------------
@@ -425,43 +481,89 @@ printTitle("EXERCISE 13");
 Write a function called countMovies which returns the number of movies contained in 
 the provided movies array.
 */
-// function countMovies() {
-//   let array = movies.length();
-//   return array;
-// }
-// console.log(countMovies());
+function countMovies(count) {
+  return parseInt(movies.length);
+}
+console.log(countMovies());
+
 //-----------------------------------------------------
 printTitle("EXERCISE 14");
 /* EXERCISE 14
 Write a function called onlyTheTitles which creates an array with just the titles of 
 the movies contained in the provided movies array.
 */
+
 function onlyTheTitles() {
-  for (let i = 0; i < movies.length; i++) {
-    console.log(movies[i].Title);
+  let onlyTitles = [];
+  for (index = 0; index < movies.length; index++) {
+    movieTitle = movies[index].Title;
+    onlyTitles.push(movieTitle);
   }
+  console.log(onlyTitles);
 }
 onlyTheTitles();
-//printTitle("EXERCISE 15");
+//-------------------------------------------------------------------------------------
+printTitle("EXERCISE 15");
 /* EXERCISE 15
 Write a function called onlyInThisMillennium which returns only the movies produced 
 in this millennium from the provided movies array.
 */
-//printTitle("EXERCISE 16");
+function onlyInThisMillennium() {
+  for (let index = 1; index < movies.length; index++) {
+    millenium = movies[index].Year >= 2000;
+    //console.log(millenium);
+    if (millenium === true) {
+      console.log(movies[index].Title + " year " + movies[index].Year);
+    }
+  }
+}
+onlyInThisMillennium();
+//-------------------------------------------------------------------------------------
+printTitle("EXERCISE 16");
 /* EXERCISE 16
 Write a function called getMovieById which receives an id as a parameter and returns 
 the movie with the given id from the provided movies array.
 */
-//printTitle("EXERCISE 17");
+function getMovieById(id) {
+  for (let index = 0; index < movies.length; index++) {
+    if (movies[index].imdbID === id) {
+      return movies[index].imdbID + " " + movies[index].Title;
+    }
+  }
+}
+console.log(getMovieById("tt4154796"));
+console.log(getMovieById("tt2395427"));
+console.log(getMovieById("tt0355702"));
+//--------------------------------------------------------------------------------------
+printTitle("EXERCISE 17");
 /* EXERCISE 17
 Write a function called sumAllTheYears which returns the sum of all the years in which
  the movies in the provided movies array have been produced.
 */
-//printTitle("EXERCISE 18");
+function sumAllTheYears(sum) {
+  sum = movies.reduce(function (a, b) {
+    return { Year: parseInt(a.Year) + parseInt(b.Year) };
+  });
+  console.log(sum);
+}
+console.log(sumAllTheYears());
+
+//----------------------------------------------------------------------------------------
+printTitle("EXERCISE 18");
 /* EXERCISE 18
 Write a function called searchByTitle which receives a string as a parameter and 
 returns all the movies in the provided movies array which contain that string in the title.
 */
+function searchByTitle(str) {
+  for (let index = 0; index < movies.length; index++) {
+    if (JSON.stringify(movies[index].Title) === JSON.stringify(str)) {
+      return movies[index].Title;
+    }
+  }
+}
+console.log(searchByTitle("Avengers: Endgame"));
+
+//--------------------------------------------------------------------------------------------
 //printTitle("EXERCISE 19");
 /* EXERCISE 19
 Write a function called searchAndDivide which receives a string as a parameter and returns an object;
@@ -469,14 +571,21 @@ this object should contain an array called match, made by all the movies from th
 movies array which contain the given string in the title,
 and another array unmatch with all the remaining ones.
 */
-//printTitle("EXERCISE 20");
+
+//-----------------------------------------------------------------------------------------------
+printTitle("EXERCISE 20");
 /* EXERCISE 20
 Write a function called “removeIndex” which receives a number as a parameter and returns the
  provided movies array without the element in the given position.
 */
-
+function removeIndex(a) {
+  return (a = movies.slice());
+}
+console.log(removeIndex(0, 1));
+//console.log(movies);
+//----------------------------------------------------------------------------------------------
 // [EXTRAS] JS Advanced
-
+printTitle("EXERCISE 21");
 /* EXERCISE 21
 Create a function called “halfTree” which receives a number as a parameter and builds 
 an “*” half tree with the given height.
@@ -487,6 +596,26 @@ halfTree(3)
 ***
 */
 
+function halfTree(h) {
+  let i = 0,
+    j = 1;
+  w = h * 2 - 1;
+  let space = parseInt(w / 2);
+  while (space >= 0) {
+    let str = "";
+    for (i = 0; i < space; i++) str += "";
+    for (i = 0; i < j; i++) str += "*";
+    console.log(str);
+    // Since every next line got 2 more *
+    j += 1;
+    // Number of space reduce by 1
+    space--;
+  }
+}
+halfTree(3);
+//------------------------------------------------------
+
+printTitle("EXERCISE 22");
 /* EXERCISE 22
 Create a function called “tree” which receives a number as a parameter and builds an “*” 
 tree with the given height.
@@ -496,6 +625,23 @@ tree(3)
 ***
 *****
 */
+function tree(x) {
+  let tree = "";
+  for (let i = 1; i <= x; i++) {
+    for (let j = 1; j <= x + x - 1; j++) {
+      if (j <= x - i || j >= x + i) {
+        tree += "";
+      } else {
+        tree += "*";
+      }
+    }
+    tree += "\n";
+  }
+  console.log(tree);
+  return tree;
+}
+
+tree(3);
 
 /* EXERCISE 23
 Create a function called “isItPrime” that receives a number as a parameter and returns true 
